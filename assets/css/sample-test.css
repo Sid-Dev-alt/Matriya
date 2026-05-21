@@ -1,0 +1,197 @@
+* {
+    font-size: 14px;
+    font-family: "Arial",Helvetica,Arial,sans-serif;
+}
+
+@media print {
+    .gap, .btn, footer, header, .hidden-print, .hidden-print * {
+        display: none !important;
+    }
+    
+    body {
+        margin: 2px 0px 0px 2px!important;
+        padding: 0 !important;
+        width: 100mm !important;
+        height: 43mm !important;
+    }
+
+    table, td, th, tr {
+        border: 1px solid #000 !important;
+        border-collapse: collapse;
+        margin: 0px 0px 5px 0px!important;
+        padding: 5px !important;
+        text-align: left;
+    }
+    
+    .panel-body {
+        margin: 0px auto 0px auto!important;
+        padding: 0px 35px !important;
+        width: 100mm !important;
+        height: 43mm !important;
+        display: block;
+        font-size: 18px;
+        font-weight: normal;
+        text-align: left;
+        line-height: 15px;
+    }
+    
+    .panel-body strong {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+        line-height: 15px;
+    }
+    
+    .panel-body p {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 18px;
+        font-weight: normal;
+        text-align: left;
+        line-height: 15px;
+    }
+    
+    .panel-body .barcode {
+        height: auto;
+        width: 380px;
+        text-align: center;
+        display: block;
+        font-family: 'Libre Barcode 39', cursive;
+        font-size: 30px;
+    }
+    
+    @page {
+        size: 3.54in 2.48in !important;
+        size: landscape !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
+/*Working Version Two Labels
+* {
+    font-size: 14px;
+    font-family: "Arial",Helvetica,Arial,sans-serif;
+}
+
+table, td, th, tr {
+    border: 1px solid black !important;
+    border-collapse: collapse;
+}
+
+@media print {
+    .gap, .btn, footer, header, .hidden-print, .hidden-print * {
+        display: none !important;
+    }
+    
+    .panel-body {
+        margin:0 5px 95px 5px!important;
+        padding:0 !important;
+        width: 100mm !important;
+        height: 63mm !important;
+        text-align:center;
+        border: 1px solid black !important;
+        line-height:25px;
+    }
+    
+    body {
+        margin:0 !important;
+        padding:0 !important;
+        width: 90mm !important;
+        height: 33mm !important;
+    }
+
+    table, td, th, tr {
+        border: 1px solid black !important;
+        border-collapse: collapse;
+    }
+    
+    .barcode
+    {
+        font-family: 'Libre Barcode 39', cursive;
+        font-size: 50px;
+    }
+    
+    @page {
+        size: 4.5in 2.0in !important;
+        size: portrait !important;
+        margin:0 !important;
+        padding:0 !important;
+    }
+}
+
+* {
+    font-size: 14px;
+    font-family: "Arial",Helvetica,Arial,sans-serif;
+}
+
+table, td, th, tr {
+    border: 1px solid black !important;
+    border-collapse: collapse;
+}
+
+@media print {
+    .gap, .btn, footer, header, .hidden-print, .hidden-print * {
+        display: none !important;
+    }
+    
+    .panel-body {
+        margin: 170px 0px 0px 0px!important;
+        padding: 0px 35px !important;
+        width: 100mm !important;
+        height: 53mm !important;
+        text-align:left;
+        border: 1px solid black !important;
+    }
+    
+    .panel-body p {
+        margin:0 !important;
+        padding:0 !important;
+        font-size: 18px;
+        font-weight: normal;
+        text-align: center;
+        line-height: 20px;
+    }
+    
+    .panel-body p strong {
+        margin:0 !important;
+        padding:0 !important;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+    }
+    
+    .panel-body .barcode {
+        height: auto;
+        width: 380px;
+    }
+    
+    body {
+        margin:0 !important;
+        padding:0 !important;
+        width: 100mm !important;
+        height: 53mm !important;
+    }
+
+    table, td, th, tr {
+        border: 1px solid black !important;
+        border-collapse: collapse;
+    }
+    
+    .barcode
+    {
+        font-family: 'Libre Barcode 39', cursive;
+        font-size: 30px;
+        text-align: center;
+    }
+    
+    @page {
+        size: 4.625in 2.0in !important;
+        size: portrait !important;
+        margin:0 !important;
+        padding:0 !important;
+    }
+}
+*/

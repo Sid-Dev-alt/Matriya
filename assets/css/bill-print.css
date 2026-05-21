@@ -1,0 +1,22 @@
+* {
+    font-size: 12px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+td,
+th,
+tr,
+table {
+    border-top: 1px solid black;
+    border-collapse: collapse;
+}
+
+
+@media print {
+    .gap, .btn, footer, header, .hidden-print,
+    .hidden-print * {
+        display: none !important;
+    }
+}
+
+
