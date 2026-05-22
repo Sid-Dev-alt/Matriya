@@ -571,6 +571,106 @@ $pagename = basename($url);
 						</li>
 					<?php
 					}
+					if($pagename == "add-inward-entry.php" || $pagename == "list-inward-entries.php")
+					{
+					?>
+						<li class="active open">
+							<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-pencil-square-o"></i>
+								<span class="menu-text"> Inward Entry </span>
+
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
+
+							<b class="arrow"></b>
+							<ul class="submenu">
+
+								<?php
+								if($pagename == "add-inward-entry.php")
+								{
+								?>
+									<li class="active">
+										<a href="add-inward-entry.php">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Add
+										</a>
+										<b class="arrow"></b>
+									</li>
+								<?php
+								}
+								else
+								{
+								?>
+									<li class="">
+										<a href="add-inward-entry.php">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Add
+										</a>
+										<b class="arrow"></b>
+									</li>
+								<?php	
+								}
+								if($pagename == "list-inward-entries.php")
+								{
+								?>
+									<li class="active">
+										<a href="list-inward-entries.php">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Listing
+										</a>
+										<b class="arrow"></b>
+									</li>
+								<?php
+								}
+								else
+								{
+								?>
+									<li class="">
+										<a href="list-inward-entries.php">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Listing
+										</a>
+										<b class="arrow"></b>
+									</li>
+								<?php	
+								}
+								?>
+							</ul>
+						</li>
+					<?php
+					}
+					else
+					{
+					?>	
+						<li class="">
+							<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-pencil-square-o"></i>
+								<span class="menu-text"> Inward Entry </span>
+
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
+
+							<b class="arrow"></b>
+
+							<ul class="submenu">
+								<li class="">
+									<a href="add-inward-entry.php">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Add
+									</a>
+									<b class="arrow"></b>
+								</li>
+								<li class="">
+									<a href="list-inward-entries.php">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Listing
+									</a>
+									<b class="arrow"></b>
+								</li>
+							</ul>
+						</li>
+					<?php
+					}
 					if($pagename == "add-raw-purchase.php" || $pagename == "list-raw-purchase.php" || $pagename == "search-raw-purchase.php")
 					{
 					?>
