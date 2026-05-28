@@ -1,84 +1,113 @@
 <?php
 error_reporting(0);
 session_start();
-
-if (empty($_SESSION['EmpId'])) {
-    echo "<script>window.location='../../index.php';</script>";
-    exit;
+if($_SESSION['EmpId']=="")
+{
+	echo "<script language=\"javascript\">window.location=\"../../index.php\";</script>";
 }
+else
+{
+	include_once "../../CommonUtilities/Connections.php";
+	include_once "../../CommonUtilities/Functions.php";
 
-include_once "../../CommonUtilities/Connections.php";
+	$data = json_decode(file_get_contents("php://input"));
+	$delete_status = 1;	
 
-$data = json_decode(file_get_contents("php://input"));
-$delete_status = 1;
+	$query = $dbConnection->prepare("SELECT PM.*,cat.CategoryName FROM ProductMaster AS PM INNER JOIN Category AS cat ON cat.PkId=PM.PkId_Category WHERE PM.DeleteStatus=? ORDER BY PkId DESC");
+	$query->execute(array($delete_status));
+	$num_rows = $query->rowCount();
+	if($num_rows>0)
+	{	
+		while($rows = $query->fetch())
+		{
+			$PkId = $rows['PkId'];
+			$ProductId = $rows['ProductId'];
+			$ProductName = $rows['ProductName'];
+			$ProductSize = $rows['Size'];
+			$Micron = $rows['Micron'];
+			$Unit = $rows['Unit'];
+			$PkId_Category = $rows['PkId_Category'];
+			$InventoryType = $rows['InventoryType'];
 
-$query = $dbConnection->prepare("
-    SELECT 
-        PM.*, 
-        cat.CategoryName,
-        (SELECT SUM(Quantity) FROM InventoryMaster WHERE ProductId_ProductMaster = PM.ProductId AND DeleteStatus = ?) AS AvlQty
-    FROM ProductMaster PM
-    INNER JOIN Category cat ON cat.PkId = PM.PkId_Category
-    WHERE PM.DeleteStatus = ?
-    ORDER BY PM.PkId DESC
-");
-$query->execute([$delete_status, $delete_status]);
-$products = $query->fetchAll();
+			$PkId_SubCategoryMaster = $rows['PkId_SubCategoryMaster'];
+			$PkId_Level2SubCategoryMaster = $rows['PkId_Level2SubCategoryMaster'];
+			$PkId_Level3SubCategoryMaster = $rows['PkId_Level3SubCategoryMaster'];
+			$CategoryName = $rows['CategoryName'];
+			$FileName = $rows['FileName'];
+			if($rows['Status']==1)
+			{
+				$displaystatus = "Active";
+			}
+			else
+			{
+				$displaystatus = "Inactive";
+			}
 
-if (empty($products)) {
-    echo "NoData";
-    exit;
+			$query1 = $dbConnection->prepare("SELECT SUM(Quantity) AS AvlQty FROM InventoryMaster WHERE ProductId_ProductMaster=? AND DeleteStatus=?");
+			$query1->execute(array($ProductId,$delete_status));
+			$num_rows1 = $query1->rowCount();
+			if($num_rows1>0)
+	        {
+    			$row = $query1->fetch();
+    			$AvlQty = $row['AvlQty'];
+    			if($ProductSize=="" || $ProductSize=="NA")
+    			{
+    				$TotalProductName= "$Micron $ProductName";	
+    			}
+    			else
+    			{
+    				$TotalProductName= "$Micron $ProductName $ProductSize MM";
+    			}
+	        }
+	        else
+	        {
+    			$AvlQty = "";
+    			$TotalProductName= "";
+	        }
+			
+
+			$query2 = $dbConnection->prepare("SELECT PkId,UniqueRollNo,Quantity,ProductId_ProductMaster FROM InventoryMaster WHERE ProductId_ProductMaster=? AND DeleteStatus=? AND Quantity>0");
+			$query2->execute(array($ProductId,$delete_status));
+			$num_rows2 = $query2->rowCount();
+			if($num_rows2>0)
+	        {
+    			while($row2 = $query2->fetch())
+    			{
+    				$data2[] = array("InvPkId"=>$row2['PkId'],"UniqueRollNo"=>$row2['UniqueRollNo'],
+    				"Quantity"=>$row2['Quantity']);
+    			}
+		    }
+	        else
+	        {
+    			$data2[] = "";
+	        }
+
+			$data1[] = array("PkId"=>$PkId,"ProductId"=>$ProductId,
+				"PkId_Category"=>$PkId_Category,
+				"CategoryName"=>$CategoryName,
+				"PkId_SubCategoryMaster"=>$PkId_SubCategoryMaster,
+				"PkId_Level2SubCategoryMaster"=>$PkId_Level2SubCategoryMaster,
+				"PkId_Level3SubCategoryMaster"=>$PkId_Level3SubCategoryMaster,
+				"InventoryType"=>$InventoryType,
+				"FileName"=>$FileName,
+				"ProductName"=>$ProductName,
+				"TotalProductName"=>$TotalProductName,
+				"AvlQty"=>$AvlQty,
+				"Micron"=>$Micron,
+				"ProductSize"=>$ProductSize,
+				"Unit"=>$Unit,
+				"Status"=>$rows['Status'],"displaystatus"=>$displaystatus,
+				"data2"=>$data2
+			);
+			unset($data2);
+		}
+
+		echo json_encode($data1);
+
+	}
+	else
+	{
+		echo "NoData";
+	}
 }
-
-$data1 = [];
-foreach ($products as $product) {
-    $ProductSize = $product['Size'];
-    $Micron = $product['Micron'];
-    $ProductName = $product['ProductName'];
-    $TotalProductName = ($ProductSize && $ProductSize != "NA") ? "$Micron $ProductName $ProductSize MM" : "$Micron $ProductName";
-
-    $displaystatus = $product['Status'] == 1 ? "Active" : "Inactive";
-
-    // Fetch available inventory for the product
-    $inventoryQuery = $dbConnection->prepare("
-        SELECT 
-            PkId, UniqueRollNo, Quantity 
-        FROM InventoryMaster 
-        WHERE ProductId_ProductMaster = ? AND DeleteStatus = ? AND Quantity > 0
-    ");
-    $inventoryQuery->execute([$product['ProductId'], $delete_status]);
-    $inventories = $inventoryQuery->fetchAll();
-
-    $data2 = [];
-    foreach ($inventories as $inventory) {
-        $data2[] = [
-            "InvPkId" => $inventory['PkId'],
-            "UniqueRollNo" => $inventory['UniqueRollNo'],
-            "Quantity" => $inventory['Quantity']
-        ];
-    }
-
-    $data1[] = [
-        "PkId" => $product['PkId'],
-        "ProductId" => $product['ProductId'],
-        "PkId_Category" => $product['PkId_Category'],
-        "CategoryName" => $product['CategoryName'],
-        "PkId_SubCategoryMaster" => $product['PkId_SubCategoryMaster'],
-        "PkId_Level2SubCategoryMaster" => $product['PkId_Level2SubCategoryMaster'],
-        "PkId_Level3SubCategoryMaster" => $product['PkId_Level3SubCategoryMaster'],
-        "InventoryType" => $product['InventoryType'],
-        "FileName" => $product['FileName'],
-        "ProductName" => $product['ProductName'],
-        "TotalProductName" => $TotalProductName,
-        "AvlQty" => $product['AvlQty'],
-        "Micron" => $Micron,
-        "ProductSize" => $ProductSize,
-        "Unit" => $product['Unit'],
-        "Status" => $product['Status'],
-        "displaystatus" => $displaystatus,
-        "data2" => $data2
-    ];
-}
-
-echo json_encode($data1);
 ?>

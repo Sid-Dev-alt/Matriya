@@ -638,6 +638,34 @@ $pagename = basename($url);
 						</li>
 					<?php
 					}
+					if($pagename == "list-roll-inventory.php")
+					{
+					?>
+						<li class="active">
+						<a href="list-roll-inventory.php">
+							<i class="menu-icon fa fa-pencil-square-o"></i>
+							<span class="menu-text">
+								Inventory
+							</span>
+						</a>
+						<b class="arrow"></b>
+						</li>
+					<?php
+					}
+					else
+					{
+					?>	
+						<li class="">
+						<a href="list-roll-inventory.php">
+							<i class="menu-icon fa fa-pencil-square-o"></i>
+							<span class="menu-text">
+								Inventory
+							</span>
+						</a>
+						<b class="arrow"></b>
+						</li>
+					<?php
+					}
 					if($pagename == "add-raw-purchase.php" || $pagename == "list-raw-purchase.php" || $pagename == "search-raw-purchase.php")
 					{
 					?>
@@ -1287,6 +1315,39 @@ $pagename = basename($url);
 						</li>
 					<?php
 					}*/	
+					
+					if($pagename == "order.php")
+					{
+					?>
+						<li class="active">
+						<a href="order.php">
+							<i class="menu-icon fa fa-shopping-cart"></i>
+
+							<span class="menu-text">
+								Order
+							</span>
+						</a>
+
+						<b class="arrow"></b>
+						</li>
+					<?php
+					}
+					else
+					{
+					?>	
+						<li class="">
+						<a href="order.php">
+							<i class="menu-icon fa fa-shopping-cart"></i>
+
+							<span class="menu-text">
+								Order
+							</span>
+						</a>
+
+						<b class="arrow"></b>
+						</li>
+					<?php
+					}
 					
 					if($pagename == "datewise-sale-reports.php" || $pagename == "datewise-sale-detail-reports.php" || $pagename == "datewise-purchase-reports.php" || $pagename == "datewise-slitting-reports.php" || $pagename == "gain-loss-report.php" || $pagename == "item-wise-report.php" || $pagename == "godown-wise-report.php" || $pagename == "roll-wise-history.php" || $pagename == "stock-list.php")
 					{

@@ -179,6 +179,14 @@ $scope.GetPurchaseBars = function()
 			else
 			{
 				$scope.BarArr = data;
+				
+				// Pre-fill RollId from URL query param if present
+				var urlParams = new URLSearchParams(window.location.search);
+				var queryRollId = urlParams.get('RollId');
+				if (queryRollId) {
+					$scope.barcodeInput = queryRollId;
+					$scope.GetBar();
+				}
 			}
             
        }, function errorCallback(response) {
